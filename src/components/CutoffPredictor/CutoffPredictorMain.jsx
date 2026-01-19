@@ -1,6 +1,8 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import Papa from 'papaparse';
+import html2canvas from 'html2canvas';
+import { Download, Loader2 } from 'lucide-react';
 import InputForm from './InputForm';
 import PredictionResults from './PredictionResults';
 import TrendGraph from './TrendGraph';
@@ -18,6 +20,8 @@ const CutoffPredictorMain = () => {
         gender: null,
     });
     const [results, setResults] = useState(null);
+    const [isDownloading, setIsDownloading] = useState(false);
+    const resultsRef = useRef(null);
 
     useEffect(() => {
         const loadPredictionData = async () => {
@@ -83,8 +87,93 @@ const CutoffPredictorMain = () => {
         }
     };
 
+    // Download Image Handler with Watermark
+    const handleDownloadImage = async () => {
+        if (!resultsRef.current) return;
+
+        try {
+            setIsDownloading(true);
+            const element = resultsRef.current;
+
+            // 1. Capture the UI
+            const originalCanvas = await html2canvas(element, {
+                scale: 2,
+                useCORS: true,
+                logging: false,
+                backgroundColor: '#fff7ed' // orange-50
+            });
+
+            // 2. Create Final Canvas with Extra Space for Footer
+            const footerHeight = 120;
+            const finalCanvas = document.createElement('canvas');
+            finalCanvas.width = originalCanvas.width;
+            finalCanvas.height = originalCanvas.height + footerHeight;
+
+            const ctx = finalCanvas.getContext('2d');
+
+            // Fill background
+            ctx.fillStyle = '#fff7ed';
+            ctx.fillRect(0, 0, finalCanvas.width, finalCanvas.height);
+
+            // Draw Original Content
+            ctx.drawImage(originalCanvas, 0, 0);
+
+            // 3. Draw Footer
+            const width = finalCanvas.width;
+            const height = finalCanvas.height;
+
+            // Footer Background (Orange)
+            ctx.fillStyle = '#f68014';
+            ctx.fillRect(0, height - footerHeight, width, footerHeight);
+
+            // Footer Text
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+
+            // Main Title
+            ctx.font = 'bold 40px sans-serif';
+            ctx.fillStyle = '#ffffff';
+            ctx.fillText('College Pe Charcha', width / 2, height - (footerHeight * 0.6));
+
+            // Subtitle / Link
+            ctx.font = '20px sans-serif';
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.95)';
+            ctx.fillText('AI-Powered Cutoff Predictor | collegepecharcha.in', width / 2, height - (footerHeight * 0.25));
+
+            // Try to draw logo
+            try {
+                const logoImg = new Image();
+                logoImg.src = '/college_pe_charcha_logo.png';
+                await new Promise((resolve, reject) => {
+                    logoImg.onload = resolve;
+                    logoImg.onerror = reject;
+                });
+
+                const logoSize = 120;
+                ctx.globalAlpha = 1.0;
+                ctx.drawImage(logoImg, width - logoSize - 40, 40, logoSize, logoSize);
+            } catch (err) {
+                console.warn("Logo failed to load:", err);
+            }
+
+            // 4. Download Final Image
+            const link = document.createElement('a');
+            const collegeName = results?.prediction?.college_name?.split(',')[0] || 'Prediction';
+            const branchName = results?.prediction?.branch_name || 'Branch';
+            link.download = `CutoffPrediction_${collegeName}_${branchName}.png`.replace(/\s+/g, '_');
+            link.href = finalCanvas.toDataURL('image/png');
+            link.click();
+
+        } catch (err) {
+            console.error("Image Generation Error:", err);
+            alert("Failed to download image. Please try again.");
+        } finally {
+            setIsDownloading(false);
+        }
+    };
+
     return (
-        <div className="bg-orange-50">
+        <div className="bg-orange-50 min-h-screen">
             {/* Responsive Layout */}
             <div className="flex flex-col lg:flex-row">
                 {/* Sidebar - Bold Standout Design */}
@@ -95,88 +184,86 @@ const CutoffPredictorMain = () => {
                     />
                 </aside>
 
-                {/* Main Content - Single Page Layout */}
-                <main className="flex-1 h-screen overflow-hidden bg-orange-50 flex flex-col">
+                {/* Main Content */}
+                <main className="flex-1 bg-orange-50">
                     {/* Welcome Screen */}
                     {!results && (
-                        <div className="h-full overflow-y-auto">
-                            <div className="flex items-center justify-center min-h-full p-6 md:p-12">
-                                <div className="max-w-5xl w-full animate-fadeIn">
+                        <div className="min-h-screen flex items-center justify-center p-6 md:p-12">
+                            <div className="max-w-5xl w-full animate-fadeIn">
 
-                                    {/* Logo Section with Glow */}
-                                    <div className="text-center mb-16 relative">
-                                        {/* Glow Effect */}
-                                        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-orange-500/10 rounded-full blur-3xl"></div>
+                                {/* Logo Section with Glow */}
+                                <div className="text-center mb-16 relative">
+                                    {/* Glow Effect */}
+                                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-orange-500/10 rounded-full blur-3xl"></div>
 
-                                        <div className="relative">
-                                            <img
-                                                src="/college_pe_charcha_logo.png"
-                                                alt="College Pe Charcha"
-                                                className="h-20 md:h-28 mx-auto mb-8 drop-shadow-2xl hover:scale-105 transition-transform duration-500"
-                                            />
-                                            <h1 className="text-4xl md:text-7xl font-black mb-4 tracking-tight">
-                                                <span className="bg-gradient-to-r from-orange-600 via-amber-500 to-orange-600 bg-clip-text text-transparent animate-gradient">MHT-CET 2026</span>
-                                            </h1>
-                                            <h2 className="text-2xl md:text-4xl font-bold text-gray-800 mb-6">Cutoff Predictor</h2>
-                                            <p className="text-lg text-gray-500 max-w-2xl mx-auto leading-relaxed mb-6">
-                                                Advanced <span className="font-bold text-orange-600">AI-powered analysis</span> based on 5 years of historical data to help you find your dream college.
-                                            </p>
+                                    <div className="relative">
+                                        <img
+                                            src="/college_pe_charcha_logo.png"
+                                            alt="College Pe Charcha"
+                                            className="h-20 md:h-28 mx-auto mb-8 drop-shadow-2xl hover:scale-105 transition-transform duration-500"
+                                        />
+                                        <h1 className="text-4xl md:text-7xl font-black mb-4 tracking-tight">
+                                            <span className="bg-gradient-to-r from-orange-600 via-amber-500 to-orange-600 bg-clip-text text-transparent animate-gradient">MHT-CET 2026</span>
+                                        </h1>
+                                        <h2 className="text-2xl md:text-4xl font-bold text-gray-800 mb-6">Cutoff Predictor</h2>
+                                        <p className="text-lg text-gray-500 max-w-2xl mx-auto leading-relaxed mb-6">
+                                            Advanced <span className="font-bold text-orange-600">AI-powered analysis</span> based on 5 years of historical data to help you find your dream college.
+                                        </p>
 
-                                            {/* Promotion Badge */}
-                                            <div className="inline-flex items-center gap-2 px-4 py-2 bg-white rounded-full shadow-lg border border-orange-100 animate-slideIn">
-                                                <span className="text-xs font-bold text-gray-400 text-transparent bg-clip-text bg-gradient-to-r from-gray-500 to-gray-700 uppercase tracking-wider">Hosted & Owned by</span>
-                                                <div className="flex items-center gap-1">
-                                                    <span className="text-sm font-black text-gray-800">College Pe Charcha</span>
-                                                    <svg className="w-4 h-4 text-orange-500" fill="currentColor" viewBox="0 0 20 20">
-                                                        <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                                                    </svg>
-                                                </div>
+                                        {/* Promotion Badge */}
+                                        <div className="inline-flex items-center gap-2 px-4 py-2 bg-white rounded-full shadow-lg border border-orange-100 animate-slideIn">
+                                            <span className="text-xs font-bold text-gray-400 text-transparent bg-clip-text bg-gradient-to-r from-gray-500 to-gray-700 uppercase tracking-wider">Hosted & Owned by</span>
+                                            <div className="flex items-center gap-1">
+                                                <span className="text-sm font-black text-gray-800">College Pe Charcha</span>
+                                                <svg className="w-4 h-4 text-orange-500" fill="currentColor" viewBox="0 0 20 20">
+                                                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                                                </svg>
                                             </div>
                                         </div>
                                     </div>
+                                </div>
 
-                                    {/* 3 Feature Cards */}
-                                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                                        {/* Card 1 */}
-                                        <div className="group relative hover:-translate-y-2 transition-all duration-300">
-                                            <div className="absolute inset-0 bg-gradient-to-br from-orange-500 to-red-500 rounded-3xl blur-xl opacity-20 group-hover:opacity-40 transition-opacity"></div>
-                                            <div className="relative bg-white rounded-3xl p-8 shadow-xl border border-orange-50">
-                                                <div className="w-16 h-16 mx-auto mb-6 rounded-2xl bg-gradient-to-br from-orange-500 to-red-500 flex items-center justify-center text-white shadow-lg group-hover:scale-110 transition-transform">
-                                                    <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                                                    </svg>
-                                                </div>
-                                                <h3 className="font-bold text-lg text-gray-900 mb-2 text-center">AI Prediction Engine</h3>
-                                                <p className="text-sm text-gray-500 text-center">Machine learning model trained on 2021-2025 trends</p>
+                                {/* 3 Feature Cards */}
+                                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                                    {/* Card 1 */}
+                                    <div className="group relative hover:-translate-y-2 transition-all duration-300">
+                                        <div className="absolute inset-0 bg-gradient-to-br from-orange-500 to-red-500 rounded-3xl blur-xl opacity-20 group-hover:opacity-40 transition-opacity"></div>
+                                        <div className="relative bg-white rounded-3xl p-8 shadow-xl border border-orange-50">
+                                            <div className="w-16 h-16 mx-auto mb-6 rounded-2xl bg-gradient-to-br from-orange-500 to-red-500 flex items-center justify-center text-white shadow-lg group-hover:scale-110 transition-transform">
+                                                <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                                                </svg>
                                             </div>
+                                            <h3 className="font-bold text-lg text-gray-900 mb-2 text-center">AI Prediction Engine</h3>
+                                            <p className="text-sm text-gray-500 text-center">Machine learning model trained on 2021-2025 trends</p>
                                         </div>
+                                    </div>
 
-                                        {/* Card 2 */}
-                                        <div className="group relative hover:-translate-y-2 transition-all duration-300 delay-100">
-                                            <div className="absolute inset-0 bg-gradient-to-br from-orange-500 to-amber-500 rounded-3xl blur-xl opacity-20 group-hover:opacity-40 transition-opacity"></div>
-                                            <div className="relative bg-white rounded-3xl p-8 shadow-xl border border-orange-50">
-                                                <div className="w-16 h-16 mx-auto mb-6 rounded-2xl bg-gradient-to-br from-orange-500 to-amber-500 flex items-center justify-center text-white shadow-lg group-hover:scale-110 transition-transform">
-                                                    <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
-                                                    </svg>
-                                                </div>
-                                                <h3 className="font-bold text-lg text-gray-900 mb-2 text-center">22,500+ Combinations</h3>
-                                                <p className="text-sm text-gray-500 text-center">Comprehensive database of Colleges, Branches & Categories</p>
+                                    {/* Card 2 */}
+                                    <div className="group relative hover:-translate-y-2 transition-all duration-300 delay-100">
+                                        <div className="absolute inset-0 bg-gradient-to-br from-orange-500 to-amber-500 rounded-3xl blur-xl opacity-20 group-hover:opacity-40 transition-opacity"></div>
+                                        <div className="relative bg-white rounded-3xl p-8 shadow-xl border border-orange-50">
+                                            <div className="w-16 h-16 mx-auto mb-6 rounded-2xl bg-gradient-to-br from-orange-500 to-amber-500 flex items-center justify-center text-white shadow-lg group-hover:scale-110 transition-transform">
+                                                <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                                                </svg>
                                             </div>
+                                            <h3 className="font-bold text-lg text-gray-900 mb-2 text-center">22,500+ Combinations</h3>
+                                            <p className="text-sm text-gray-500 text-center">Comprehensive database of Colleges, Branches & Categories</p>
                                         </div>
+                                    </div>
 
-                                        {/* Card 3 */}
-                                        <div className="group relative hover:-translate-y-2 transition-all duration-300 delay-200">
-                                            <div className="absolute inset-0 bg-gradient-to-br from-amber-500 to-yellow-500 rounded-3xl blur-xl opacity-20 group-hover:opacity-40 transition-opacity"></div>
-                                            <div className="relative bg-white rounded-3xl p-8 shadow-xl border border-orange-50">
-                                                <div className="w-16 h-16 mx-auto mb-6 rounded-2xl bg-gradient-to-br from-amber-500 to-yellow-500 flex items-center justify-center text-white shadow-lg group-hover:scale-110 transition-transform">
-                                                    <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                                                    </svg>
-                                                </div>
-                                                <h3 className="font-bold text-lg text-gray-900 mb-2 text-center">Real-time Analysis</h3>
-                                                <p className="text-sm text-gray-500 text-center">Instant processing & advanced visualization</p>
+                                    {/* Card 3 */}
+                                    <div className="group relative hover:-translate-y-2 transition-all duration-300 delay-200">
+                                        <div className="absolute inset-0 bg-gradient-to-br from-amber-500 to-yellow-500 rounded-3xl blur-xl opacity-20 group-hover:opacity-40 transition-opacity"></div>
+                                        <div className="relative bg-white rounded-3xl p-8 shadow-xl border border-orange-50">
+                                            <div className="w-16 h-16 mx-auto mb-6 rounded-2xl bg-gradient-to-br from-amber-500 to-yellow-500 flex items-center justify-center text-white shadow-lg group-hover:scale-110 transition-transform">
+                                                <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                                                </svg>
                                             </div>
+                                            <h3 className="font-bold text-lg text-gray-900 mb-2 text-center">Real-time Analysis</h3>
+                                            <p className="text-sm text-gray-500 text-center">Instant processing & advanced visualization</p>
                                         </div>
                                     </div>
                                 </div>
@@ -184,10 +271,27 @@ const CutoffPredictorMain = () => {
                         </div>
                     )}
 
-                    {/* Results - Scrollable Layout */}
+                    {/* Results Layout - No Scroll */}
                     {results && (
-                        <div className="flex-1 overflow-y-auto p-4 md:p-6">
-                            <div className="max-w-7xl w-full mx-auto space-y-6">
+                        <div className="p-4 md:p-6">
+                            {/* Download Button */}
+                            <div className="max-w-7xl mx-auto mb-4 flex justify-end" data-html2canvas-ignore="true">
+                                <button
+                                    onClick={handleDownloadImage}
+                                    disabled={isDownloading}
+                                    className="flex items-center gap-2 px-5 py-2.5 bg-white border border-orange-200 text-orange-600 rounded-xl hover:bg-orange-50 font-bold text-sm shadow-sm transition-all disabled:opacity-50"
+                                >
+                                    {isDownloading ? (
+                                        <Loader2 className="h-4 w-4 animate-spin" />
+                                    ) : (
+                                        <Download className="h-4 w-4" />
+                                    )}
+                                    {isDownloading ? 'Generating...' : 'Download Prediction'}
+                                </button>
+                            </div>
+
+                            {/* Results Content (Captured for Download) */}
+                            <div ref={resultsRef} className="max-w-7xl w-full mx-auto space-y-6 bg-orange-50 p-4 rounded-2xl">
                                 {/* Prediction Header */}
                                 <PredictionResults results={results} />
 
@@ -210,11 +314,9 @@ const CutoffPredictorMain = () => {
                                         </div>
                                     </div>
 
-                                    {/* Right Column - Historical Data (1/3 width, sticky) */}
+                                    {/* Right Column - Historical Data (1/3 width) */}
                                     <div className="lg:col-span-1">
-                                        <div className="lg:sticky lg:top-4">
-                                            <RoundComparison results={results} historicalData={historicalData} />
-                                        </div>
+                                        <RoundComparison results={results} historicalData={historicalData} />
                                     </div>
                                 </div>
                             </div>
