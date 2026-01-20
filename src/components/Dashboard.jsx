@@ -108,7 +108,7 @@ const Dashboard = () => {
                         {/* Right - Illustration */}
                         <div className="relative flex items-center justify-center lg:justify-end overflow-visible">
                             <img
-                                src="./public/frontend.png"
+                                src="/frontend.png"
                                 alt="Student exploring colleges"
                                 className="w-full max-w-none object-contain pointer-events-none select-none"
                                 style={{
