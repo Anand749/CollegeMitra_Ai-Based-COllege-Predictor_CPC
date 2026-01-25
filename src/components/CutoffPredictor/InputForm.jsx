@@ -130,9 +130,9 @@ const InputForm = ({ predictionData, onPredict }) => {
 
   return (
     <>
-      <div className="h-full flex flex-col">
+      <div className="flex flex-col h-auto lg:h-[calc(100vh-8rem)]">
         {/* Header - Glass Effect */}
-        <div className="px-6 py-5 border-b border-gray-200 bg-white/95 sticky top-0 z-10 backdrop-blur-md flex items-center justify-between">
+        <div className="px-6 py-5 border-b border-orange-100 bg-white/95 sticky top-0 z-10 backdrop-blur-md flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-orange-500 to-amber-500 flex items-center justify-center shadow-lg shadow-orange-500/20">
               <svg className="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">

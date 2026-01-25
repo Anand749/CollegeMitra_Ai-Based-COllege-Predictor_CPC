@@ -25,6 +25,7 @@ import {
     X,
     ArrowLeft
 } from 'lucide-react';
+import Footer from '../Footer';
 
 const casteFallbackOrder = {
     NT3: ["NT3", "NT2", "NT1", "OPEN"],
@@ -665,8 +666,15 @@ function CollegePredictorPage() {
     };
 
     return (
-        <div className="transition-colors duration-300 bg-orange-50 min-h-screen">
-            <div className="max-w-7xl mx-auto px-4 py-4 sm:py-6">
+        <div className="min-h-screen bg-[#FFFBF2] relative overflow-x-hidden">
+            {/* Background Decoration - Premium Gold/Champagne Grid */}
+            <div className="fixed inset-0 bg-[linear-gradient(to_right,#f59e0b1a_1px,transparent_1px),linear-gradient(to_bottom,#f59e0b1a_1px,transparent_1px)] bg-[size:24px_24px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] pointer-events-none"></div>
+
+            {/* Golden Glows */}
+            <div className="fixed top-20 left-10 w-72 h-72 bg-amber-200/20 rounded-full blur-3xl animate-pulse mix-blend-multiply pointer-events-none"></div>
+            <div className="fixed bottom-20 right-10 w-96 h-96 bg-orange-200/20 rounded-full blur-3xl animate-pulse mix-blend-multiply pointer-events-none" style={{ animationDelay: '1s' }}></div>
+
+            <div className="relative z-10 max-w-7xl mx-auto px-4 py-4 sm:py-6">
                 {/* Back Button Header */}
                 <div className="mb-4 sm:mb-6">
                     <button
@@ -990,6 +998,7 @@ function CollegePredictorPage() {
                     </div>
                 </div>
             </div>
+            <Footer />
         </div>
     );
 }

@@ -1,12 +1,21 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { Mail, Instagram, MapPin, Send, ArrowLeft } from "lucide-react";
+import Footer from './Footer';
 
 const ContactPage = () => {
     const navigate = useNavigate();
+
     return (
-        <div className="min-h-screen bg-gradient-to-br from-orange-50 via-white to-blue-50 py-8 sm:py-12">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="min-h-screen bg-[#FFFBF2] relative overflow-x-hidden">
+            {/* Background Decoration - Premium Gold/Champagne Grid */}
+            <div className="fixed inset-0 bg-[linear-gradient(to_right,#f59e0b1a_1px,transparent_1px),linear-gradient(to_bottom,#f59e0b1a_1px,transparent_1px)] bg-[size:24px_24px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] pointer-events-none"></div>
+
+            {/* Golden Glows */}
+            <div className="fixed top-20 left-10 w-72 h-72 bg-amber-200/20 rounded-full blur-3xl animate-pulse mix-blend-multiply pointer-events-none"></div>
+            <div className="fixed bottom-20 right-10 w-96 h-96 bg-orange-200/20 rounded-full blur-3xl animate-pulse mix-blend-multiply pointer-events-none" style={{ animationDelay: '1s' }}></div>
+
+            <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
                 {/* Back Button */}
                 <div className="mb-6">
                     <button
@@ -157,6 +166,8 @@ const ContactPage = () => {
                     </div>
                 </div>
             </div>
+
+            <Footer />
         </div>
     );
 };

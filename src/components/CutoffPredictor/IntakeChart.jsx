@@ -240,7 +240,7 @@ const IntakeChart = ({ branchCode, branchName, category, gender }) => {
                         </p>
                     </div>
                 </div>
-                <div className="h-[180px]">
+                <div className="h-[240px]">
                     <Bar data={data} options={options} />
                 </div>
             </div>

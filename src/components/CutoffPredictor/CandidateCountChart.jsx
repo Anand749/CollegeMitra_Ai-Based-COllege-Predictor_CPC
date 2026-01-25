@@ -139,7 +139,7 @@ const CandidateCountChart = () => {
                         <p className="text-xs text-gray-500">MHT-CET PCM Candidates per Year</p>
                     </div>
                 </div>
-                <div className="h-[180px]">
+                <div className="h-[240px]">
                     <Bar data={data} options={options} />
                 </div>
                 <div className="mt-3 flex justify-center gap-6 text-xs">

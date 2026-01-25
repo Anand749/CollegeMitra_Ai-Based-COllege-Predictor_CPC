@@ -9,6 +9,7 @@ import TrendGraph from './TrendGraph';
 import RoundComparison from './RoundComparison';
 import CandidateCountChart from './CandidateCountChart';
 import IntakeChart from './IntakeChart';
+import Footer from '../Footer';
 
 const CutoffPredictorMain = () => {
     const navigate = useNavigate();
@@ -176,198 +177,137 @@ const CutoffPredictorMain = () => {
     };
 
     return (
-        <div className="bg-orange-50 min-h-screen">
-            {/* Back Button - Mobile Visible */}
-            <div className="lg:hidden px-4 py-3 bg-white border-b border-orange-100">
-                <button
-                    onClick={() => navigate(-1)}
-                    className="inline-flex items-center gap-2 px-3 py-2 bg-orange-50 border border-orange-200 text-gray-700 hover:text-[#f68014] hover:border-[#f68014] rounded-xl font-medium text-sm transition-all"
-                >
-                    <ArrowLeft className="h-4 w-4" />
-                    <span>Back</span>
-                </button>
-            </div>
+        <div className="min-h-screen bg-[#FFFBF2] relative overflow-x-hidden">
+            {/* Background Decoration - Premium Gold/Champagne Grid */}
+            <div className="fixed inset-0 bg-[linear-gradient(to_right,#f59e0b1a_1px,transparent_1px),linear-gradient(to_bottom,#f59e0b1a_1px,transparent_1px)] bg-[size:24px_24px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] pointer-events-none"></div>
 
-            {/* Responsive Layout */}
-            <div className="flex flex-col lg:flex-row">
-                {/* Sidebar - Sticky on desktop */}
-                <aside className="w-full lg:w-80 lg:sticky lg:top-0 lg:h-screen lg:overflow-y-auto bg-white border-b-4 lg:border-r-4 lg:border-b-0 border-orange-500 shadow-[10px_0_40px_rgba(249,115,22,0.1)] z-20 flex-shrink-0">
-                    {/* Desktop Back Button - Inside Sidebar */}
-                    <div className="hidden lg:block px-6 py-4 border-b border-gray-100">
-                        <button
-                            onClick={() => navigate(-1)}
-                            className="inline-flex items-center gap-2 px-3 py-2 bg-orange-50 border border-orange-200 text-gray-700 hover:text-[#f68014] hover:border-[#f68014] rounded-xl font-medium text-sm transition-all"
-                        >
-                            <ArrowLeft className="h-4 w-4" />
-                            <span>Back</span>
-                        </button>
+            {/* Golden Glows */}
+            <div className="fixed top-20 left-10 w-72 h-72 bg-amber-200/20 rounded-full blur-3xl animate-pulse mix-blend-multiply pointer-events-none"></div>
+            <div className="fixed bottom-20 right-10 w-96 h-96 bg-orange-200/20 rounded-full blur-3xl animate-pulse mix-blend-multiply pointer-events-none" style={{ animationDelay: '1s' }}></div>
+
+            <div className="relative z-10 max-w-[95rem] mx-auto px-4 py-8 sm:py-12">
+                {/* Back Button */}
+                <div className="mb-6">
+                    <button
+                        onClick={() => navigate(-1)}
+                        className="inline-flex items-center gap-2 px-3 sm:px-4 py-2 sm:py-2.5 bg-white border border-orange-200 text-gray-700 hover:text-[#f68014] hover:border-[#f68014] rounded-xl font-medium text-sm sm:text-base transition-all shadow-sm hover:shadow-md"
+                    >
+                        <ArrowLeft className="h-4 w-4 sm:h-5 sm:w-5" />
+                        <span>Back</span>
+                    </button>
+                </div>
+
+                <div className="flex flex-col lg:flex-row gap-8">
+                    {/* Filter Section - Sticky Card */}
+                    <div className="w-full lg:w-[320px] flex-shrink-0">
+                        <div className="rounded-2xl shadow-xl border lg:sticky lg:top-24 transition-colors duration-300 bg-white border-orange-100 overflow-hidden">
+                            <InputForm
+                                predictionData={predictionData}
+                                onPredict={handlePrediction}
+                            />
+                        </div>
                     </div>
-                    <InputForm
-                        predictionData={predictionData}
-                        onPredict={handlePrediction}
-                    />
-                </aside>
 
-                {/* Main Content */}
-                <main ref={mainRef} className="flex-1 bg-orange-50">
-                    {/* Welcome Screen */}
-                    {!results && (
-                        <div className="min-h-screen flex items-center justify-center p-6 md:p-12">
-                            <div className="max-w-5xl w-full animate-fadeIn">
-
-                                {/* Logo Section with Glow */}
-                                <div className="text-center mb-16 relative">
-                                    {/* Glow Effect */}
-                                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-orange-500/10 rounded-full blur-3xl"></div>
-
-                                    <div className="relative">
-                                        <img
-                                            src="/college_pe_charcha_logo.png"
-                                            alt="College Pe Charcha"
-                                            className="h-20 md:h-28 mx-auto mb-8 drop-shadow-2xl hover:scale-105 transition-transform duration-500"
-                                        />
-                                        <h1 className="text-4xl md:text-7xl font-black mb-4 tracking-tight">
-                                            <span className="bg-gradient-to-r from-orange-600 via-amber-500 to-orange-600 bg-clip-text text-transparent animate-gradient">MHT-CET 2026</span>
-                                        </h1>
-                                        <h2 className="text-2xl md:text-4xl font-bold text-gray-800 mb-6">Cutoff Predictor</h2>
-                                        <p className="text-lg text-gray-500 max-w-2xl mx-auto leading-relaxed mb-6">
-                                            Advanced <span className="font-bold text-orange-600">AI-powered analysis</span> based on 5 years of historical data to help you find your dream college.
-                                        </p>
-
-                                        {/* Promotion Badge */}
-                                        <div className="inline-flex items-center gap-2 px-4 py-2 bg-white rounded-full shadow-lg border border-orange-100 animate-slideIn">
-                                            <span className="text-xs font-bold text-gray-400 text-transparent bg-clip-text bg-gradient-to-r from-gray-500 to-gray-700 uppercase tracking-wider">Hosted & Owned by</span>
-                                            <div className="flex items-center gap-1">
-                                                <span className="text-sm font-black text-gray-800">College Pe Charcha</span>
-                                                <svg className="w-4 h-4 text-orange-500" fill="currentColor" viewBox="0 0 20 20">
-                                                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                                                </svg>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                {/* 3 Feature Cards */}
-                                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                                    {/* Card 1 */}
-                                    <div className="group relative hover:-translate-y-2 transition-all duration-300">
-                                        <div className="absolute inset-0 bg-gradient-to-br from-orange-500 to-red-500 rounded-3xl blur-xl opacity-20 group-hover:opacity-40 transition-opacity"></div>
-                                        <div className="relative bg-white rounded-3xl p-8 shadow-xl border border-orange-50">
-                                            <div className="w-16 h-16 mx-auto mb-6 rounded-2xl bg-gradient-to-br from-orange-500 to-red-500 flex items-center justify-center text-white shadow-lg group-hover:scale-110 transition-transform">
-                                                <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                                                </svg>
-                                            </div>
-                                            <h3 className="font-bold text-lg text-gray-900 mb-2 text-center">AI Prediction Engine</h3>
-                                            <p className="text-sm text-gray-500 text-center">Machine learning model trained on 2021-2025 trends</p>
-                                        </div>
-                                    </div>
-
-                                    {/* Card 2 */}
-                                    <div className="group relative hover:-translate-y-2 transition-all duration-300 delay-100">
-                                        <div className="absolute inset-0 bg-gradient-to-br from-orange-500 to-amber-500 rounded-3xl blur-xl opacity-20 group-hover:opacity-40 transition-opacity"></div>
-                                        <div className="relative bg-white rounded-3xl p-8 shadow-xl border border-orange-50">
-                                            <div className="w-16 h-16 mx-auto mb-6 rounded-2xl bg-gradient-to-br from-orange-500 to-amber-500 flex items-center justify-center text-white shadow-lg group-hover:scale-110 transition-transform">
-                                                <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
-                                                </svg>
-                                            </div>
-                                            <h3 className="font-bold text-lg text-gray-900 mb-2 text-center">22,500+ Combinations</h3>
-                                            <p className="text-sm text-gray-500 text-center">Comprehensive database of Colleges, Branches & Categories</p>
-                                        </div>
-                                    </div>
-
-                                    {/* Card 3 */}
-                                    <div className="group relative hover:-translate-y-2 transition-all duration-300 delay-200">
-                                        <div className="absolute inset-0 bg-gradient-to-br from-amber-500 to-yellow-500 rounded-3xl blur-xl opacity-20 group-hover:opacity-40 transition-opacity"></div>
-                                        <div className="relative bg-white rounded-3xl p-8 shadow-xl border border-orange-50">
-                                            <div className="w-16 h-16 mx-auto mb-6 rounded-2xl bg-gradient-to-br from-amber-500 to-yellow-500 flex items-center justify-center text-white shadow-lg group-hover:scale-110 transition-transform">
-                                                <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                                                </svg>
-                                            </div>
-                                            <h3 className="font-bold text-lg text-gray-900 mb-2 text-center">Real-time Analysis</h3>
-                                            <p className="text-sm text-gray-500 text-center">Instant processing & advanced visualization</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    )}
-
-                    {/* Results Layout */}
-                    {results && (
-                        <div className="p-4 md:p-6 pb-20 relative">
-                            {/* Download Button */}
-                            <div className="max-w-7xl mx-auto mb-4 flex justify-end" data-html2canvas-ignore="true">
-                                <button
-                                    onClick={handleDownloadImage}
-                                    disabled={isDownloading}
-                                    className="flex items-center gap-2 px-5 py-2.5 bg-white border border-orange-200 text-orange-600 rounded-xl hover:bg-orange-50 font-bold text-sm shadow-sm transition-all disabled:opacity-50"
-                                >
-                                    {isDownloading ? (
-                                        <Loader2 className="h-4 w-4 animate-spin" />
-                                    ) : (
-                                        <Download className="h-4 w-4" />
-                                    )}
-                                    {isDownloading ? 'Generating...' : 'Download Prediction'}
-                                </button>
-                            </div>
-
-                            {/* Results Content (Captured for Download) */}
-                            <div ref={resultsRef} className="max-w-7xl w-full mx-auto space-y-6 bg-orange-50 p-4 rounded-2xl">
-                                {/* Prediction Header */}
-                                <PredictionResults results={results} />
-
-                                {/* Main Content Grid */}
-                                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                                    {/* Left Column - Graphs (2/3 width) */}
-                                    <div className="lg:col-span-2 space-y-6">
-                                        {/* Cutoff Trend Graph */}
-                                        <TrendGraph results={results} />
-
-                                        {/* Statistics Charts Row */}
-                                        <div id="charts-section" className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                            <CandidateCountChart />
-                                            <IntakeChart
-                                                branchCode={results.prediction.branch_code}
-                                                branchName={results.prediction.branch_name}
-                                                category={results.prediction.category}
-                                                gender={results.prediction.gender}
+                    {/* Main Content */}
+                    <main ref={mainRef} className="flex-1 min-w-0">
+                        {/* Welcome Screen */}
+                        {!results && (
+                            <div className="min-h-[60vh] flex items-center justify-center p-6">
+                                <div className="max-w-3xl w-full animate-fadeIn">
+                                    {/* Logo Section with Glow */}
+                                    <div className="text-center mb-10 relative">
+                                        <div className="relative">
+                                            <img
+                                                src="/college_pe_charcha_logo.png"
+                                                alt="College Pe Charcha"
+                                                className="h-20 md:h-24 mx-auto mb-6 drop-shadow-2xl hover:scale-105 transition-transform duration-500"
                                             />
+                                            <h1 className="text-3xl md:text-5xl font-black mb-3 tracking-tight">
+                                                <span className="bg-gradient-to-r from-orange-600 via-amber-500 to-orange-600 bg-clip-text text-transparent animate-gradient">MHT-CET 2026</span>
+                                            </h1>
+                                            <h2 className="text-xl md:text-3xl font-bold text-gray-800 mb-4">Cutoff Predictor</h2>
+                                            <p className="text-base text-gray-600 max-w-2xl mx-auto leading-relaxed mb-6">
+                                                Advanced <span className="font-bold text-orange-600">AI-powered analysis</span> based on 5 years of historical data.
+                                            </p>
                                         </div>
                                     </div>
 
-                                    {/* Right Column - Historical Data (1/3 width) */}
-                                    <div className="lg:col-span-1">
-                                        <RoundComparison results={results} historicalData={historicalData} />
+                                    {/* Feature Cards Compact */}
+                                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                                        {[
+                                            { title: 'AI Engine', desc: 'ML Model', color: 'from-orange-500 to-red-500' },
+                                            { title: '22k+ Combos', desc: 'Full Database', color: 'from-orange-500 to-amber-500' },
+                                            { title: 'Instant', desc: 'Real-time', color: 'from-amber-500 to-yellow-500' }
+                                        ].map((card, i) => (
+                                            <div key={i} className="bg-white rounded-2xl p-4 shadow-lg border border-orange-50 text-center hover:-translate-y-1 transition-transform">
+                                                <div className={`w-10 h-10 mx-auto mb-3 rounded-xl bg-gradient-to-br ${card.color} flex items-center justify-center text-white shadow-md`}>
+                                                    <Loader2 className="h-5 w-5" />
+                                                </div>
+                                                <h3 className="font-bold text-gray-900 text-sm">{card.title}</h3>
+                                                <p className="text-xs text-gray-500">{card.desc}</p>
+                                            </div>
+                                        ))}
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    )}
+                        )}
 
-                    {/* Floating Scroll Indicator - Always Visible */}
-                    {results && showScrollHint && (
-                        <div
-                            className="fixed bottom-6 left-1/2 transform -translate-x-1/2 z-50 cursor-pointer"
-                            onClick={() => {
-                                window.scrollBy({ top: 400, behavior: 'smooth' });
-                                setShowScrollHint(false);
-                            }}
-                            data-html2canvas-ignore="true"
-                        >
-                            <div className="flex flex-col items-center animate-bounce">
-                                <div className="bg-white/90 backdrop-blur-md px-4 py-2 rounded-full shadow-lg border border-orange-200 flex items-center gap-2">
-                                    <div className="w-6 h-10 border-2 border-orange-400 rounded-full flex justify-center pt-1">
-                                        <div className="w-1.5 h-2.5 bg-orange-500 rounded-full animate-scroll-mouse"></div>
+                        {/* Results Layout */}
+                        {results && (
+                            <div className="space-y-6 relative">
+                                {/* Download Button */}
+                                <div className="flex justify-end" data-html2canvas-ignore="true">
+                                    <button
+                                        onClick={handleDownloadImage}
+                                        disabled={isDownloading}
+                                        className="flex items-center gap-2 px-5 py-2.5 bg-white border border-orange-200 text-orange-600 rounded-xl hover:bg-orange-50 font-bold text-sm shadow-sm transition-all disabled:opacity-50"
+                                    >
+                                        {isDownloading ? (
+                                            <Loader2 className="h-4 w-4 animate-spin" />
+                                        ) : (
+                                            <Download className="h-4 w-4" />
+                                        )}
+                                        {isDownloading ? 'Generating...' : 'Download Prediction'}
+                                    </button>
+                                </div>
+
+                                {/* Results Content (Captured for Download) */}
+                                <div ref={resultsRef} className="w-full space-y-6 bg-orange-50/50 p-6 rounded-2xl border border-orange-100">
+                                    {/* Prediction Header */}
+                                    <PredictionResults results={results} />
+
+                                    {/* Main Content Grid - New Layout */}
+                                    <div className="space-y-6">
+                                        {/* Row 1: Trend Graph (60%) + Seat Intake (40%) */}
+                                        <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
+                                            <div className="lg:col-span-3">
+                                                <TrendGraph results={results} />
+                                            </div>
+                                            <div className="lg:col-span-2">
+                                                <IntakeChart
+                                                    branchCode={results.prediction.branch_code}
+                                                    branchName={results.prediction.branch_name}
+                                                    category={results.prediction.category}
+                                                    gender={results.prediction.gender}
+                                                />
+                                            </div>
+                                        </div>
+
+                                        {/* Row 2: Historical Cutoffs (60%) + Students Appeared (40%) */}
+                                        <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
+                                            <div className="lg:col-span-3">
+                                                <RoundComparison results={results} historicalData={historicalData} />
+                                            </div>
+                                            <div className="lg:col-span-2">
+                                                <CandidateCountChart />
+                                            </div>
+                                        </div>
                                     </div>
-                                    <span className="text-orange-600 font-semibold text-sm">Scroll for more</span>
                                 </div>
                             </div>
-                        </div>
-                    )}
-                </main>
+                        )}
+                    </main>
+                </div>
             </div>
 
             <style>{`
@@ -383,34 +323,16 @@ const CutoffPredictorMain = () => {
           0%, 100% { background-position: 0% 50%; }
           50% { background-position: 100% 50%; }
         }
-        @keyframes gradient-bg {
-          0%, 100% { background-position: 0% 50%; }
-          50% { background-position: 100% 50%; }
-        }
         .animate-fadeIn {
           animation: fadeIn 0.8s ease-out;
-        }
-        .animate-slideIn {
-          animation: slideIn 0.6s ease-out forwards;
         }
         .animate-gradient {
           background-size: 200% 200%;
           animation: gradient 5s ease infinite;
         }
-        .animate-gradient-bg {
-          background-size: 400% 400%;
-          animation: gradient-bg 15s ease infinite;
-        }
-        @keyframes scroll-mouse {
-          0% { transform: translateY(0); opacity: 1; }
-          50% { transform: translateY(4px); opacity: 0.5; }
-          100% { transform: translateY(0); opacity: 1; }
-        }
-        .animate-scroll-mouse {
-          animation: scroll-mouse 1.5s ease-in-out infinite;
-        }
       `}</style>
-        </div >
+            <Footer />
+        </div>
     );
 };
 

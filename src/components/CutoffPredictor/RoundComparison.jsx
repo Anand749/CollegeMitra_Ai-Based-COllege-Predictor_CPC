@@ -53,7 +53,7 @@ const RoundComparison = ({ results }) => {
                                     <span className="w-2 h-2 rounded-full bg-gradient-to-r from-orange-500 to-red-500"></span>
                                     {yearData.year}
                                 </div>
-                                <div className="flex-1 grid grid-cols-4 gap-1.5">
+                                <div className="flex-1 grid grid-cols-2 sm:grid-cols-4 gap-1.5">
                                     {['R1', 'R2', 'R3', 'R4'].map(round => {
                                         const isMin = round === yearData.minRound;
                                         const cutoff = yearData.rounds[round];

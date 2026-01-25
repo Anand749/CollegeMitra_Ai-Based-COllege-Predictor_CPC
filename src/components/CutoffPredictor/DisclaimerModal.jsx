@@ -1,10 +1,16 @@
 import { useEffect, useState } from 'react';
+import { createPortal } from 'react-dom';
 
 const DisclaimerModal = ({ onClose, onProceed }) => {
     const [isVisible, setIsVisible] = useState(false);
 
     useEffect(() => {
         setIsVisible(true);
+        // Prevent scrolling when modal is open
+        document.body.style.overflow = 'hidden';
+        return () => {
+            document.body.style.overflow = 'unset';
+        };
     }, []);
 
     const handleClose = () => {
@@ -17,8 +23,8 @@ const DisclaimerModal = ({ onClose, onProceed }) => {
         setTimeout(onProceed, 300);
     };
 
-    return (
-        <div className={`fixed inset-0 z-50 flex items-center justify-center p-4 transition-all duration-300 ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
+    return createPortal(
+        <div className={`fixed inset-0 z-[9999] flex items-center justify-center p-4 transition-all duration-300 ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
 
             {/* Backdrop with blur */}
             <div
@@ -97,7 +103,8 @@ const DisclaimerModal = ({ onClose, onProceed }) => {
                     </div>
                 </div>
             </div>
-        </div>
+        </div>,
+        document.body
     );
 };
 
