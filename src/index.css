@@ -12,6 +12,11 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* Smooth scrolling for better mobile UX */
+html {
+  scroll-behavior: smooth;
+}
+
 @layer components {
   .card {
     @apply bg-white rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300;
@@ -31,5 +36,67 @@ body {
 
   .select-field {
     @apply w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-200 bg-white;
+  }
+
+  /* Mobile-specific touch targets */
+  .touch-target {
+    @apply min-h-[44px] min-w-[44px];
+  }
+
+  .touch-button {
+    @apply min-h-[48px] min-w-[48px] flex items-center justify-center;
+  }
+}
+
+/* Mobile-optimized active animations */
+@layer utilities {
+  .active\:scale-98:active {
+    transform: scale(0.98);
+  }
+
+  .active\:scale-95:active {
+    transform: scale(0.95);
+  }
+
+  /* Better focus states for accessibility */
+  .focus-ring {
+    @apply focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2;
+  }
+
+  /* Grid pattern background */
+  .bg-grid-pattern {
+    background-image: linear-gradient(to right, #f97316 1px, transparent 1px),
+      linear-gradient(to bottom, #f97316 1px, transparent 1px);
+    background-size: 40px 40px;
+    mask-image: linear-gradient(to bottom, transparent, white, transparent);
+    -webkit-mask-image: linear-gradient(to bottom, transparent, white, transparent);
+  }
+
+  /* Custom scrollbar for better mobile UX */
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 10px;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }
+}
+
+/* Mobile typography optimization */
+@media (max-width: 640px) {
+  html {
+    font-size: 14px;
+    /* Slightly smaller base font for mobile */
   }
 }
