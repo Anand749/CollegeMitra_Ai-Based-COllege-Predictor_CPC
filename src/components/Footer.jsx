@@ -3,16 +3,16 @@ import { Link } from 'react-router-dom';
 
 const Footer = () => {
     return (
-        <footer className="bg-gray-950 text-gray-400 py-16 font-sans relative overflow-hidden">
+        <footer className="bg-gray-950 text-gray-400 py-16 font-sans relative overflow-hidden z-0">
             {/* Background Decoration */}
             <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-orange-500 via-amber-500 to-orange-600"></div>
             <div className="absolute -top-24 -left-24 w-64 h-64 bg-orange-500/5 rounded-full blur-3xl"></div>
             <div className="absolute bottom-0 right-0 w-96 h-96 bg-blue-500/5 rounded-full blur-3xl"></div>
 
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8 mb-16">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8 mb-16">
                     {/* Brand Column */}
-                    <div className="space-y-6 lg:col-span-2">
+                    <div className="space-y-6">
                         <h3 className="text-2xl font-black text-white tracking-tight flex items-center gap-2">
                             <span className="text-orange-500">College Pe Charcha</span>
                         </h3>
@@ -32,30 +32,46 @@ const Footer = () => {
                         </div>
                     </div>
 
+                    {/* Tools Column */}
+                    <div>
+                        <h4 className="text-white font-bold mb-6 flex items-center gap-2">
+                            <span className="w-1.5 h-1.5 rounded-full bg-orange-500"></span>
+                            Prediction Tools
+                        </h4>
+                        <ul className="space-y-4 text-sm">
+                            <li><Link to="/college-predictor" className="hover:text-orange-400 transition-colors flex items-center gap-2">College Predictor</Link></li>
+                            <li><Link to="/cutoff-predictor" className="hover:text-orange-400 transition-colors flex items-center gap-2">Cutoff Predictor <span className="text-[10px] bg-orange-500/20 text-orange-400 px-1.5 py-0.5 rounded border border-orange-500/30">NEW</span></Link></li>
+                            <li><Link to="/college-comparison" className="hover:text-orange-400 transition-colors flex items-center gap-2">College Comparison</Link></li>
+                        </ul>
+                    </div>
+
                     {/* Quick Links */}
                     <div>
-                        <h4 className="text-white font-bold mb-6">Quick Links</h4>
+                        <h4 className="text-white font-bold mb-6 flex items-center gap-2">
+                            <span className="w-1.5 h-1.5 rounded-full bg-amber-500"></span>
+                            Quick Links
+                        </h4>
                         <ul className="space-y-4 text-sm">
-                            <li><Link to="/college-predictor" className="hover:text-orange-400 transition-colors">College Predictor</Link></li>
-                            <li><Link to="/cutoff-predictor" className="hover:text-orange-400 transition-colors">Cutoff Predictor</Link></li>
-                            <li><Link to="/college-comparison" className="hover:text-orange-400 transition-colors">College Comparison</Link></li>
-                            <li><a href="https://www.collegepecharcha.in/colleges" target="_blank" rel="noopener noreferrer" className="hover:text-orange-400 transition-colors">Colleges</a></li>
-                            <li><a href="https://www.collegepecharcha.in/resources" target="_blank" rel="noopener noreferrer" className="hover:text-orange-400 transition-colors">Resources</a></li>
-                            <li><a href="https://www.collegepecharcha.in/events" target="_blank" rel="noopener noreferrer" className="hover:text-orange-400 transition-colors">Events</a></li>
-                            <li><a href="https://www.collegepecharcha.in/team" target="_blank" rel="noopener noreferrer" className="hover:text-orange-400 transition-colors">Team</a></li>
+                            <li><a href="https://www.collegepecharcha.in/colleges" target="_blank" rel="noopener noreferrer" className="hover:text-amber-400 transition-colors">Colleges</a></li>
+                            <li><a href="https://www.collegepecharcha.in/resources" target="_blank" rel="noopener noreferrer" className="hover:text-amber-400 transition-colors">Resources</a></li>
+                            <li><a href="https://www.collegepecharcha.in/events" target="_blank" rel="noopener noreferrer" className="hover:text-amber-400 transition-colors">Events</a></li>
+                            <li><a href="https://www.collegepecharcha.in/team" target="_blank" rel="noopener noreferrer" className="hover:text-amber-400 transition-colors">Team</a></li>
                         </ul>
                     </div>
 
                     {/* Contact */}
                     <div>
-                        <h4 className="text-white font-bold mb-6">Contact Us</h4>
+                        <h4 className="text-white font-bold mb-6 flex items-center gap-2">
+                            <span className="w-1.5 h-1.5 rounded-full bg-blue-500"></span>
+                            Contact Us
+                        </h4>
                         <ul className="space-y-4 text-sm">
-                            <li className="flex items-center gap-3">
-                                <span className="text-orange-500 opacity-80">✉</span>
-                                <a href="mailto:collegepecharcha11@gmail.com" className="hover:text-white transition-colors">collegepecharcha11@gmail.com</a>
+                            <li className="flex items-start gap-3">
+                                <span className="text-orange-500 mt-0.5">✉</span>
+                                <a href="mailto:collegepecharcha11@gmail.com" className="hover:text-white transition-colors truncate">collegepecharcha11@gmail.com</a>
                             </li>
                             <li className="flex items-center gap-3">
-                                <span className="text-orange-500 opacity-80">📞</span>
+                                <span className="text-orange-500">📞</span>
                                 <span>+91 7499957162</span>
                             </li>
                         </ul>

@@ -31,17 +31,19 @@ const RoundComparison = ({ results }) => {
     const allHistoricalData = getAllHistoricalData();
 
     return (
-        <div className="bg-gradient-to-br from-orange-50 via-amber-50 to-orange-100 rounded-2xl p-4 shadow-lg border border-orange-200">
-            <div className="flex items-center gap-2 mb-3 flex-shrink-0">
+        <div className="bg-gradient-to-br from-orange-50 via-amber-50 to-orange-100 rounded-[1.8rem] p-5 md:p-6 shadow-2xl border border-orange-200 h-full flex flex-col">
+            <div className="flex items-center gap-3 mb-6 flex-shrink-0">
                 <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-orange-500 to-red-500 flex items-center justify-center shadow-md">
                     <svg className="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
                         <path fillRule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clipRule="evenodd" />
                     </svg>
                 </div>
-                <h3 className="text-base font-bold text-gray-800">Historical Cutoffs</h3>
+                <div>
+                    <h3 className="text-lg font-bold text-gray-900">Historical Cutoff</h3>
+                </div>
             </div>
 
-            <div className="space-y-2">
+            <div className="flex-1 overflow-y-auto pr-1 space-y-3 custom-scrollbar">
                 {allHistoricalData.length > 0 ? (
                     allHistoricalData.map((yearData) => (
                         <div

@@ -189,7 +189,7 @@ const TrendGraph = ({ results }) => {
     const trendUp = trend > 0;
 
     return (
-        <div className="relative group">
+        <div className="relative group h-full">
             {/* Ambient Glow Background */}
             <div className="absolute -inset-0.5 bg-gradient-to-r from-orange-300 via-amber-300 to-green-300 rounded-[2rem] blur opacity-30 group-hover:opacity-60 transition duration-1000"></div>
 
@@ -216,8 +216,8 @@ const TrendGraph = ({ results }) => {
                     </div>
                 </div>
 
-                {/* Graph Area */}
-                <div className="w-full h-[220px] md:h-[260px] relative">
+                {/* Graph Area - Flexible height */}
+                <div className="w-full flex-1 min-h-[220px] relative">
                     <Line data={data} options={options} />
                 </div>
 

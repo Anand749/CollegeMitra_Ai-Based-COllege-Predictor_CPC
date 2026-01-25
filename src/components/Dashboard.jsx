@@ -5,6 +5,30 @@ import { motion, AnimatePresence } from 'framer-motion';
 import Spline from '@splinetool/react-spline';
 import Footer from './Footer';
 
+const SparkleDivider = () => (
+    <div className="relative pt-0 pb-20 md:pb-28 overflow-hidden z-20">
+        <div className="w-full flex items-center justify-center">
+            {/* Main Gradient Line - Spans more width */}
+            <motion.div
+                initial={{ scaleX: 0, opacity: 0 }}
+                whileInView={{ scaleX: 1, opacity: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 2, ease: "easeInOut" }}
+                className="w-[90%] h-[1.5px] bg-gradient-to-r from-transparent via-amber-500/40 to-transparent"
+            />
+
+            {/* Thinner, brighter core for visibility */}
+            <motion.div
+                initial={{ scaleX: 0, opacity: 0 }}
+                whileInView={{ scaleX: 1, opacity: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 1.5, ease: "easeOut", delay: 0.3 }}
+                className="absolute inset-x-[10%] h-[0.5px] bg-gradient-to-r from-transparent via-orange-500/80 to-transparent"
+            />
+        </div>
+    </div>
+);
+
 const Dashboard = () => {
     const [showPopup, setShowPopup] = useState(false);
 
@@ -41,7 +65,7 @@ const Dashboard = () => {
     }, [typedText, isTyping, fullText]);
 
     return (
-        <div className="min-h-screen bg-orange-50">
+        <div className="min-h-screen bg-[#FFFBF2]">
             {/* Community Popup */}
             <AnimatePresence>
                 {showPopup && (
@@ -87,9 +111,36 @@ const Dashboard = () => {
             </AnimatePresence>
 
             {/* Hero Section */}
-            <section className="relative overflow-hidden min-h-[85vh] sm:min-h-[90vh] lg:min-h-screen flex items-center bg-gradient-to-b from-[#FFFBF2] to-[#FFFBF2]">
+            <section className="relative overflow-hidden min-h-[85vh] sm:min-h-[90vh] lg:min-h-screen flex items-center bg-[#FFFBF2]">
                 {/* Background Decoration - Premium Gold/Champagne Grid */}
-                <div className="absolute inset-0 bg-[linear-gradient(to_right,#f59e0b1a_1px,transparent_1px),linear-gradient(to_bottom,#f59e0b1a_1px,transparent_1px)] bg-[size:24px_24px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]"></div>
+                <div className="absolute inset-0 bg-[linear-gradient(to_right,#f59e0b1a_1px,transparent_1px),linear-gradient(to_bottom,#f59e0b1a_1px,transparent_1px)] bg-[size:24px_24px] [mask-image:linear-gradient(to_bottom,#000_50%,transparent_100%)]"></div>
+
+                {/* Hero Top Logo - Responsive Position */}
+                <motion.div
+                    initial={{ opacity: 0, y: -20 }}
+                    animate={{
+                        opacity: 1,
+                        y: [0, -10, 0],
+                    }}
+                    transition={{
+                        opacity: { duration: 0.8 },
+                        y: { duration: 3, repeat: Infinity, ease: "easeInOut" }
+                    }}
+                    className="absolute z-30 top-4 right-4 md:top-12 md:left-1/2 md:-translate-x-1/2 md:right-auto"
+                >
+                    <div className="relative group">
+                        {/* Premium Glow Effect */}
+                        <div className="absolute -inset-4 bg-gradient-to-r from-orange-400/20 via-amber-400/20 to-orange-500/20 rounded-full blur-2xl group-hover:opacity-100 transition-opacity duration-500 opacity-70"></div>
+
+                        <div className="relative bg-white/20 backdrop-blur-xl p-4 sm:p-6 rounded-[2rem] border border-white/40 shadow-2xl flex items-center justify-center">
+                            <img
+                                src="/college_pe_charcha_logo.png"
+                                alt="Logo"
+                                className="h-10 sm:h-16 w-auto object-contain"
+                            />
+                        </div>
+                    </div>
+                </motion.div>
 
                 {/* Golden Glows */}
                 <div className="absolute top-20 left-10 w-72 h-72 bg-amber-200/20 rounded-full blur-3xl animate-pulse mix-blend-multiply"></div>
@@ -100,42 +151,83 @@ const Dashboard = () => {
                         <motion.div
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.6 }}
-                            className="space-y-5 sm:space-y-6 z-10 text-center lg:text-left"
+                            transition={{ duration: 0.6, staggerChildren: 0.2 }}
+                            className="space-y-6 sm:space-y-8 z-10 text-center lg:text-left"
                         >
                             <motion.div
-                                initial={{ opacity: 0, scale: 0.9 }}
-                                animate={{ opacity: 1, scale: 1 }}
-                                transition={{ delay: 0.2 }}
-                                className="inline-flex items-center gap-2 bg-gradient-to-r from-orange-100 to-orange-50 px-4 py-2 rounded-full border border-orange-200 shadow-sm"
+                                initial={{ opacity: 0, scale: 0.8 }}
+                                animate={{ opacity: 1, scale: 1, y: [0, -8, 0] }}
+                                transition={{
+                                    opacity: { duration: 0.6 },
+                                    scale: { type: "spring", stiffness: 200, damping: 15 },
+                                    y: { duration: 3, repeat: Infinity, ease: "easeInOut" }
+                                }}
+                                className="inline-flex items-center gap-2 bg-gradient-to-r from-orange-100/80 to-orange-50/80 backdrop-blur-md px-5 py-2.5 rounded-full border border-orange-200 shadow-sm"
                             >
-                                <CheckCircle className="w-4 h-4 text-green-600" />
-                                <span className="text-sm font-semibold text-gray-700">Trusted by 10,000+ Students</span>
+                                <div className="relative">
+                                    <CheckCircle className="w-4 h-4 text-green-600 relative z-10" />
+                                    <motion.div
+                                        animate={{ scale: [1, 1.5, 1], opacity: [0.5, 0, 0.5] }}
+                                        transition={{ duration: 2, repeat: Infinity }}
+                                        className="absolute inset-0 bg-green-400 rounded-full -z-0"
+                                    />
+                                </div>
+                                <span className="text-sm font-bold text-gray-700 tracking-tight">Trusted by 15,000+ Students</span>
                             </motion.div>
 
-                            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-gray-900 leading-tight">
+                            <motion.h1
+                                initial={{ opacity: 0, y: 30 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 0.8, delay: 0.2 }}
+                                className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black text-gray-900 leading-[1.1] tracking-tight"
+                            >
                                 Find the Right<br />
-                                College <span className="text-[#f68014]">with Confidence</span>
-                            </h1>
+                                <span className="relative">
+                                    College
+                                    <motion.span
+                                        initial={{ width: 0 }}
+                                        animate={{ width: "100%" }}
+                                        transition={{ delay: 1, duration: 0.8 }}
+                                        className="absolute bottom-1 left-0 h-3 bg-orange-200/50 -z-10 rounded-full"
+                                    />
+                                </span>
+                                <span className="text-[#f68014] animate-pulse-slow"> with Confidence</span>
+                            </motion.h1>
 
-                            <p className="text-base sm:text-lg text-gray-600 max-w-lg leading-relaxed mx-auto lg:mx-0">
-                                Not sure which college you'll get? Enter your percentile and see your options instantly. We've analyzed 5 years of MHT-CET cutoff data so you don't have to.
-                            </p>
+                            <motion.p
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 0.8, delay: 0.4 }}
+                                className="text-lg sm:text-xl text-gray-600 max-w-lg leading-relaxed mx-auto lg:mx-0 font-medium"
+                            >
+                                Not sure which college you'll get? Enter your percentile and see your options instantly. We've <span className="text-orange-600 font-bold">analyzed 5 years</span> of MHT-CET cutoff data.
+                            </motion.p>
 
-                            <div className="flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4 pt-3 justify-center lg:justify-start">
+                            <motion.div
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 0.8, delay: 0.6 }}
+                                className="flex flex-col sm:flex-row flex-wrap gap-4 pt-4 justify-center lg:justify-start"
+                            >
                                 <Link to="/college-predictor" className="w-full sm:w-auto">
-                                    <button className="w-full min-h-[48px] px-6 sm:px-8 py-3.5 sm:py-4 bg-[#f68014] text-white font-semibold rounded-lg hover:bg-orange-600 active:scale-98 transition-all shadow-lg shadow-orange-500/25 text-base sm:text-base">
+                                    <motion.button
+                                        whileHover={{ scale: 1.05, boxShadow: "0 20px 25px -5px rgba(246, 128, 20, 0.3)" }}
+                                        whileTap={{ scale: 0.95 }}
+                                        className="w-full min-h-[56px] px-8 py-4 bg-[#f68014] text-white font-bold rounded-2xl hover:bg-orange-600 transition-all shadow-xl shadow-orange-500/25 text-lg"
+                                    >
                                         Predict College →
-                                    </button>
+                                    </motion.button>
                                 </Link>
                                 <Link to="/cutoff-predictor" className="w-full sm:w-auto">
-                                    <button className="w-full min-h-[48px] px-6 sm:px-8 py-3.5 sm:py-4 border-2 border-gray-300 text-gray-700 font-semibold rounded-lg hover:border-gray-400 active:scale-98 transition-all bg-[#FFFBF2] text-base sm:text-base">
+                                    <motion.button
+                                        whileHover={{ scale: 1.05, borderColor: "#f68014", color: "#f68014" }}
+                                        whileTap={{ scale: 0.95 }}
+                                        className="w-full min-h-[56px] px-8 py-4 border-2 border-gray-200 text-gray-700 font-bold rounded-2xl hover:bg-orange-50 transition-all bg-white/50 backdrop-blur-sm text-lg"
+                                    >
                                         Predict Cutoff for 2026 →
-                                    </button>
+                                    </motion.button>
                                 </Link>
-                            </div>
-
-
+                            </motion.div>
                         </motion.div>
 
                         <div className="relative flex items-center justify-center lg:justify-end overflow-visible order-first lg:order-last mb-8 lg:mb-0">
@@ -201,7 +293,7 @@ const Dashboard = () => {
                                                         transition={{ repeat: Infinity, duration: 1.5 }}
                                                         className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-green-500 rounded-full shadow-md shadow-green-500/60"
                                                     />
-                                                    <span className="text-[10px] sm:text-xs text-gray-600 font-medium">Online & Ready</span>
+                                                    <span className="text-[10px] sm:text-xs text-gray-600 font-medium">Online</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -260,11 +352,11 @@ const Dashboard = () => {
                         </div>
                     </div>
                 </div>
-                <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[#FFFBF2] to-transparent"></div>
             </section >
 
-            {/* Tools Section */}
-            <section className="py-16 sm:py-24 bg-[#FFFBF2] relative z-20 -mt-8 sm:-mt-12" id="tools">
+            <section className="pb-32 sm:pb-48 pt-0 bg-[#FFFBF2] relative z-20" id="tools">
+                <SparkleDivider />
+
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="text-center mb-12 sm:mb-16">
                         <motion.div
@@ -348,8 +440,8 @@ const Dashboard = () => {
                 </div>
             </section>
 
-            {/* Stats & Timeline Section - Premium Champagne/Gold Theme (MOVED HERE) */}
-            <section className="py-16 sm:py-24 lg:py-32 bg-gradient-to-b from-[#FFFBF2] to-[#FFFBF2] relative overflow-hidden">
+            <section className="pb-40 sm:pb-52 lg:pb-64 pt-0 bg-gradient-to-b from-[#FFFBF2] to-[#FFFBF2] relative overflow-hidden">
+                <SparkleDivider />
                 {/* Background Decoration */}
                 <div className="absolute inset-0 bg-[linear-gradient(to_right,#f59e0b1a_1px,transparent_1px),linear-gradient(to_bottom,#f59e0b1a_1px,transparent_1px)] bg-[size:24px_24px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]"></div>
 
@@ -362,7 +454,7 @@ const Dashboard = () => {
                         <div>
                             <div className="inline-flex items-center gap-2 bg-amber-100 px-3 py-1 rounded-full border border-amber-200 mb-6">
                                 <Sparkles className="w-4 h-4 text-amber-600" />
-                                <span className="text-amber-800 font-bold text-xs uppercase tracking-wider">Unmatched Accuracy</span>
+                                <span className="text-amber-800 font-bold text-xs uppercase tracking-wider">AI Powered</span>
                             </div>
                             <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black mb-6 leading-tight text-gray-900">
                                 Data that drives <br />
@@ -378,8 +470,8 @@ const Dashboard = () => {
                                     <div className="text-sm text-gray-500 font-medium">Top Colleges</div>
                                 </div>
                                 <div className="p-4 rounded-2xl bg-[#FFFBF2] border border-amber-100 shadow-xl shadow-amber-100/50 group hover:-translate-y-1 transition-transform duration-300">
-                                    <div className="text-3xl font-black text-amber-600 mb-1">99.8%</div>
-                                    <div className="text-sm text-gray-500 font-medium">Prediction Accuracy</div>
+                                    <div className="text-3xl font-black text-amber-600 mb-1">2021-25</div>
+                                    <div className="text-sm text-gray-500 font-medium">Considering Every Round's cutoff</div>
                                 </div>
                             </div>
                         </div>
@@ -439,8 +531,8 @@ const Dashboard = () => {
                 </div>
             </section>
 
-            {/* Mentorship / Community Section - Increased spacing from top */}
-            <section className="py-20 sm:py-32 bg-gradient-to-r from-orange-600 to-orange-700 relative overflow-hidden mt-0 sm:mt-0">
+            <section className="pb-20 sm:pb-32 pt-0 bg-gradient-to-r from-orange-600 to-orange-700 relative overflow-hidden">
+                <SparkleDivider />
                 <div className="absolute inset-0 bg-[url('/pattern.png')] opacity-10"></div>
                 <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
                     <div className="flex flex-col md:flex-row items-center justify-between gap-12 sm:gap-16">
@@ -475,8 +567,8 @@ const Dashboard = () => {
                                 </a>
                             </div>
                         </div>
-                        <div className="relative w-full md:w-3/5 lg:w-2/3 xl:w-2/3 min-w-[300px] -mr-8 lg:-mr-12">
-                            <div className="relative aspect-video rounded-2xl overflow-hidden shadow-2xl border-4 border-white/20 group transform hover:scale-105 transition-transform duration-300 bg-black">
+                        <div className="relative w-full md:w-3/4 lg:w-4/5 xl:w-[85%] min-w-[300px] -mr-8 lg:-mr-16">
+                            <div className="relative aspect-video rounded-3xl overflow-hidden shadow-2xl border-8 border-white/10 group transform hover:scale-[1.02] transition-transform duration-500 bg-black">
                                 <iframe
                                     className="w-full h-full"
                                     src="https://www.youtube.com/embed/y459gWKoaEw"
@@ -485,8 +577,15 @@ const Dashboard = () => {
                                     allowFullScreen
                                 ></iframe>
                             </div>
-                            <div className="flex items-center justify-center gap-2 mt-3 text-orange-100/80 text-sm font-medium">
-                                <span className="animate-pulse">🔴</span> Watch how we help you
+                            <div className="flex items-center justify-center gap-2 mt-4 text-orange-100 font-bold text-sm sm:text-base tracking-wide">
+                                <motion.span
+                                    animate={{ opacity: [1, 0, 1] }}
+                                    transition={{ duration: 1.5, repeat: Infinity }}
+                                    className="text-red-400"
+                                >
+                                    🔴
+                                </motion.span>
+                                Watch how we help you
                             </div>
                         </div>
                     </div>
@@ -494,9 +593,10 @@ const Dashboard = () => {
             </section>
 
             {/* What We Offer Section - Reordered with Full Width Cards */}
-            <section className="py-16 sm:py-24 bg-gradient-to-b from-[#FFFBF2] to-white relative overflow-hidden">
+            <section className="pb-16 sm:pb-24 pt-0 bg-[#FFFBF2] relative overflow-hidden">
+                <SparkleDivider />
                 {/* Background Decoration - Premium Gold/Champagne Grid */}
-                <div className="absolute inset-0 bg-[linear-gradient(to_right,#f59e0b1a_1px,transparent_1px),linear-gradient(to_bottom,#f59e0b1a_1px,transparent_1px)] bg-[size:24px_24px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]"></div>
+                <div className="absolute inset-0 bg-[linear-gradient(to_right,#f59e0b1a_1px,transparent_1px),linear-gradient(to_bottom,#f59e0b1a_1px,transparent_1px)] bg-[size:24px_24px] [mask-image:linear-gradient(to_bottom,#000_50%,transparent_100%)]"></div>
 
                 {/* Golden Glows */}
                 <div className="absolute top-0 right-0 w-96 h-96 bg-amber-200/20 rounded-full blur-3xl mix-blend-multiply animate-pulse"></div>
@@ -672,6 +772,13 @@ const style = document.createElement('style');
 style.textContent = `
     .active\\:scale-98:active {
         transform: scale(0.98);
+    }
+    @keyframes pulse-slow {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.8; }
+    }
+    .animate-pulse-slow {
+        animation: pulse-slow 3s ease-in-out infinite;
     }
 `;
 document.head.appendChild(style);

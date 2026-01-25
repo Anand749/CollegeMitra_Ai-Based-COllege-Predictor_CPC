@@ -156,7 +156,7 @@ const InputForm = ({ predictionData, onPredict }) => {
         </div>
 
         {/* Form */}
-        <form onSubmit={handleSubmit} className="flex-1 overflow-y-auto px-6 py-6 space-y-6 scrollbar-hide bg-white [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:none]">
+        <form onSubmit={handleSubmit} className="flex-1 overflow-y-auto px-6 py-6 space-y-6 scrollbar-hide bg-white [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:none] relative z-50">
 
           {/* College Selection */}
           <div className="space-y-3 relative group">
@@ -172,13 +172,13 @@ const InputForm = ({ predictionData, onPredict }) => {
                 className={`w-full px-4 py-3 mb-2 text-sm rounded-xl border transition-all duration-300 font-bold placeholder-gray-500 ${focusedField === 'search' ? 'border-orange-500 shadow-[0_0_0_4px_rgba(249,115,22,0.1)]' : 'border-gray-300'}`}
               />
 
-              <div className="relative">
+              <div className="relative z-50">
                 <select
                   value={formData.college?.college_code || ''}
                   onChange={handleCollegeChange}
                   onFocus={() => setFocusedField('college')}
                   onBlur={() => setFocusedField(null)}
-                  className={inputClasses(focusedField === 'college', !!formData.college)}
+                  className={`${inputClasses(focusedField === 'college', !!formData.college)} z-50`}
                   required
                 >
                   <option value="">Select Target College</option>
@@ -201,13 +201,13 @@ const InputForm = ({ predictionData, onPredict }) => {
           {/* Branch Selection */}
           <div className="space-y-2 relative">
             <label className="text-xs font-extrabold text-gray-700 uppercase tracking-wider ml-1">Branch</label>
-            <div className="relative">
+            <div className="relative z-50">
               <select
                 value={formData.branch?.branch_code || ''}
                 onChange={handleBranchChange}
                 onFocus={() => setFocusedField('branch')}
                 onBlur={() => setFocusedField(null)}
-                className={inputClasses(focusedField === 'branch', !!formData.branch)}
+                className={`${inputClasses(focusedField === 'branch', !!formData.branch)} z-50`}
                 disabled={!formData.college}
                 required
               >
@@ -227,13 +227,13 @@ const InputForm = ({ predictionData, onPredict }) => {
           {/* Category Selection */}
           <div className="space-y-2 relative">
             <label className="text-xs font-extrabold text-gray-700 uppercase tracking-wider ml-1">Category</label>
-            <div className="relative">
+            <div className="relative z-50">
               <select
                 value={formData.category}
                 onChange={handleCategoryChange}
                 onFocus={() => setFocusedField('category')}
                 onBlur={() => setFocusedField(null)}
-                className={inputClasses(focusedField === 'category', !!formData.category)}
+                className={`${inputClasses(focusedField === 'category', !!formData.category)} z-50`}
                 disabled={!formData.branch}
                 required
               >

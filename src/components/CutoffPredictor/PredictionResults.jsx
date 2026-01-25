@@ -1,3 +1,5 @@
+import Counter from './Counter';
+
 const PredictionResults = ({ results }) => {
     const { prediction, filters } = results;
     const change = prediction.change || 0;
@@ -41,7 +43,7 @@ const PredictionResults = ({ results }) => {
                                 <span className="text-xs font-bold text-green-700 uppercase tracking-wide">Predicted 2026</span>
                             </div>
                             <div className="text-3xl md:text-5xl font-black text-green-600 mb-1 md:mb-2">
-                                {prediction.predicted_cutoff_2026?.toFixed(2) || 'N/A'}%
+                                <Counter value={prediction.predicted_cutoff_2026 || 0} decimals={2} suffix="%" />
                             </div>
                             <div className="text-xs text-green-600 font-medium">🤖 AI Prediction</div>
                         </div>
@@ -57,7 +59,7 @@ const PredictionResults = ({ results }) => {
                                 <span className="text-xs font-bold text-gray-600 uppercase tracking-wide">Last Year Cutoff</span>
                             </div>
                             <div className="text-3xl md:text-5xl font-black text-blue-600 mb-1 md:mb-2">
-                                {prediction.last_closing_cutoff_2025?.toFixed(2) || 'N/A'}%
+                                <Counter value={prediction.last_closing_cutoff_2025 || 0} decimals={2} suffix="%" />
                             </div>
                             <div className="text-xs text-gray-500 font-medium">2025 Closing Cutoff</div>
                         </div>
@@ -81,7 +83,7 @@ const PredictionResults = ({ results }) => {
                             </div>
                             <div className={`text-3xl md:text-5xl font-black mb-1 md:mb-2 ${isNegative ? 'text-red-600' : 'text-green-600'
                                 }`}>
-                                {change > 0 ? '+' : ''}{change.toFixed(2)}
+                                {change > 0 ? '+' : ''}<Counter value={change} decimals={2} />
                             </div>
                             <div className={`text-xs font-semibold ${isNegative ? 'text-red-600' : 'text-green-600'
                                 }`}>

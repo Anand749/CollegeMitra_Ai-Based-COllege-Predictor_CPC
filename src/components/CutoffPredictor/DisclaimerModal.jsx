@@ -6,11 +6,6 @@ const DisclaimerModal = ({ onClose, onProceed }) => {
 
     useEffect(() => {
         setIsVisible(true);
-        // Prevent scrolling when modal is open
-        document.body.style.overflow = 'hidden';
-        return () => {
-            document.body.style.overflow = 'unset';
-        };
     }, []);
 
     const handleClose = () => {

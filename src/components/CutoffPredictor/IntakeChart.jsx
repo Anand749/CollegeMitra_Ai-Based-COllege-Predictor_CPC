@@ -224,9 +224,9 @@ const IntakeChart = ({ branchCode, branchName, category, gender }) => {
     };
 
     return (
-        <div className="relative group">
+        <div className="relative group h-full">
             <div className="absolute -inset-0.5 bg-gradient-to-r from-indigo-300 via-purple-300 to-pink-300 rounded-[1.5rem] blur opacity-20 group-hover:opacity-40 transition duration-500"></div>
-            <div className="relative bg-white/90 backdrop-blur-xl rounded-2xl p-5 shadow-xl border border-white/50 h-full">
+            <div className="relative bg-white/90 backdrop-blur-xl rounded-2xl p-5 shadow-xl border border-white/50 h-full flex flex-col">
                 <div className="flex items-center gap-3 mb-4">
                     <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-500 flex items-center justify-center text-white shadow-lg">
                         <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -240,7 +240,7 @@ const IntakeChart = ({ branchCode, branchName, category, gender }) => {
                         </p>
                     </div>
                 </div>
-                <div className="h-[240px]">
+                <div className="flex-1 min-h-[200px]">
                     <Bar data={data} options={options} />
                 </div>
             </div>

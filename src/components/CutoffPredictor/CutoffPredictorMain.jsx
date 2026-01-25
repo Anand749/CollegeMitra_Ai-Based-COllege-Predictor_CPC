@@ -1,8 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Papa from 'papaparse';
-import html2canvas from 'html2canvas';
-import { Download, Loader2, ArrowLeft } from 'lucide-react';
+import { Loader2, ArrowLeft } from 'lucide-react';
 import InputForm from './InputForm';
 import PredictionResults from './PredictionResults';
 import TrendGraph from './TrendGraph';
@@ -22,7 +21,6 @@ const CutoffPredictorMain = () => {
         gender: null,
     });
     const [results, setResults] = useState(null);
-    const [isDownloading, setIsDownloading] = useState(false);
     const [showScrollHint, setShowScrollHint] = useState(true);
     const resultsRef = useRef(null);
     const mainRef = useRef(null);
@@ -91,90 +89,21 @@ const CutoffPredictorMain = () => {
         }
     };
 
-    // Download Image Handler with Watermark
-    const handleDownloadImage = async () => {
-        if (!resultsRef.current) return;
 
-        try {
-            setIsDownloading(true);
-            const element = resultsRef.current;
+    // Auto-scroll to results effect
+    useEffect(() => {
+        if (results && resultsRef.current) {
+            // Add a small delay to ensure DOM is fully rendered before scrolling
+            setTimeout(() => {
+                resultsRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 100);
+            setShowScrollHint(true);
 
-            // 1. Capture the UI
-            const originalCanvas = await html2canvas(element, {
-                scale: 2,
-                useCORS: true,
-                logging: false,
-                backgroundColor: '#fff7ed' // orange-50
-            });
-
-            // 2. Create Final Canvas with Extra Space for Footer
-            const footerHeight = 120;
-            const finalCanvas = document.createElement('canvas');
-            finalCanvas.width = originalCanvas.width;
-            finalCanvas.height = originalCanvas.height + footerHeight;
-
-            const ctx = finalCanvas.getContext('2d');
-
-            // Fill background
-            ctx.fillStyle = '#fff7ed';
-            ctx.fillRect(0, 0, finalCanvas.width, finalCanvas.height);
-
-            // Draw Original Content
-            ctx.drawImage(originalCanvas, 0, 0);
-
-            // 3. Draw Footer
-            const width = finalCanvas.width;
-            const height = finalCanvas.height;
-
-            // Footer Background (Orange)
-            ctx.fillStyle = '#f68014';
-            ctx.fillRect(0, height - footerHeight, width, footerHeight);
-
-            // Footer Text
-            ctx.textAlign = 'center';
-            ctx.textBaseline = 'middle';
-
-            // Main Title
-            ctx.font = 'bold 40px sans-serif';
-            ctx.fillStyle = '#ffffff';
-            ctx.fillText('College Pe Charcha', width / 2, height - (footerHeight * 0.6));
-
-            // Subtitle / Link
-            ctx.font = '20px sans-serif';
-            ctx.fillStyle = 'rgba(255, 255, 255, 0.95)';
-            ctx.fillText('AI-Powered Cutoff Predictor | collegepecharcha.in', width / 2, height - (footerHeight * 0.25));
-
-            // Try to draw logo
-            try {
-                const logoImg = new Image();
-                logoImg.src = '/college_pe_charcha_logo.png';
-                await new Promise((resolve, reject) => {
-                    logoImg.onload = resolve;
-                    logoImg.onerror = reject;
-                });
-
-                const logoSize = 120;
-                ctx.globalAlpha = 1.0;
-                ctx.drawImage(logoImg, width - logoSize - 40, 40, logoSize, logoSize);
-            } catch (err) {
-                console.warn("Logo failed to load:", err);
-            }
-
-            // 4. Download Final Image
-            const link = document.createElement('a');
-            const collegeName = results?.prediction?.college_name?.split(',')[0] || 'Prediction';
-            const branchName = results?.prediction?.branch_name || 'Branch';
-            link.download = `CutoffPrediction_${collegeName}_${branchName}.png`.replace(/\s+/g, '_');
-            link.href = finalCanvas.toDataURL('image/png');
-            link.click();
-
-        } catch (err) {
-            console.error("Image Generation Error:", err);
-            alert("Failed to download image. Please try again.");
-        } finally {
-            setIsDownloading(false);
+            // Hide hint after some time or on manual scroll
+            const timer = setTimeout(() => setShowScrollHint(false), 8000);
+            return () => clearTimeout(timer);
         }
-    };
+    }, [results]);
 
     return (
         <div className="min-h-screen bg-[#FFFBF2] relative overflow-x-hidden">
@@ -199,7 +128,7 @@ const CutoffPredictorMain = () => {
 
                 <div className="flex flex-col lg:flex-row gap-8">
                     {/* Filter Section - Sticky Card */}
-                    <div className="w-full lg:w-[320px] flex-shrink-0">
+                    <div className="w-full lg:w-[320px] flex-shrink-0 relative z-50">
                         <div className="rounded-2xl shadow-xl border lg:sticky lg:top-24 transition-colors duration-300 bg-white border-orange-100 overflow-hidden">
                             <InputForm
                                 predictionData={predictionData}
@@ -235,7 +164,7 @@ const CutoffPredictorMain = () => {
                                     {/* Feature Cards Compact */}
                                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                                         {[
-                                            { title: 'AI Engine', desc: 'ML Model', color: 'from-orange-500 to-red-500' },
+                                            { title: 'AI Engine', desc: '', color: 'from-orange-500 to-red-500' },
                                             { title: '22k+ Combos', desc: 'Full Database', color: 'from-orange-500 to-amber-500' },
                                             { title: 'Instant', desc: 'Real-time', color: 'from-amber-500 to-yellow-500' }
                                         ].map((card, i) => (
@@ -255,35 +184,38 @@ const CutoffPredictorMain = () => {
                         {/* Results Layout */}
                         {results && (
                             <div className="space-y-6 relative">
-                                {/* Download Button */}
-                                <div className="flex justify-end" data-html2canvas-ignore="true">
-                                    <button
-                                        onClick={handleDownloadImage}
-                                        disabled={isDownloading}
-                                        className="flex items-center gap-2 px-5 py-2.5 bg-white border border-orange-200 text-orange-600 rounded-xl hover:bg-orange-50 font-bold text-sm shadow-sm transition-all disabled:opacity-50"
-                                    >
-                                        {isDownloading ? (
-                                            <Loader2 className="h-4 w-4 animate-spin" />
-                                        ) : (
-                                            <Download className="h-4 w-4" />
-                                        )}
-                                        {isDownloading ? 'Generating...' : 'Download Prediction'}
-                                    </button>
-                                </div>
+                                {/* Scroll Hint - Mouse Animation */}
+                                {showScrollHint && (
+                                    <div className="fixed bottom-10 left-1/2 -translate-x-1/2 z-50 flex flex-col items-center gap-2 cursor-pointer opacity-80 hover:opacity-100 transition-opacity" onClick={() => setShowScrollHint(false)}>
+                                        <div className="mouse-container">
+                                            <div className="mouse">
+                                                <div className="wheel"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                )}
+
 
                                 {/* Results Content (Captured for Download) */}
                                 <div ref={resultsRef} className="w-full space-y-6 bg-orange-50/50 p-6 rounded-2xl border border-orange-100">
                                     {/* Prediction Header */}
                                     <PredictionResults results={results} />
 
-                                    {/* Main Content Grid - New Layout */}
+                                    {/* Main Content Grid - Ultimate Layout */}
                                     <div className="space-y-6">
-                                        {/* Row 1: Trend Graph (60%) + Seat Intake (40%) */}
-                                        <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
-                                            <div className="lg:col-span-3">
+                                        {/* Row 1: Trend Graph (60%) + Historical Cutoffs (40%) */}
+                                        <div className="grid grid-cols-1 lg:grid-cols-5 gap-6 lg:h-[500px]">
+                                            <div className="lg:col-span-3 h-full">
                                                 <TrendGraph results={results} />
                                             </div>
-                                            <div className="lg:col-span-2">
+                                            <div className="lg:col-span-2 h-full">
+                                                <RoundComparison results={results} historicalData={historicalData} />
+                                            </div>
+                                        </div>
+
+                                        {/* Row 2: Seat Intake (50%) + Students Appeared (50%) */}
+                                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:h-[350px]">
+                                            <div className="w-full h-full">
                                                 <IntakeChart
                                                     branchCode={results.prediction.branch_code}
                                                     branchName={results.prediction.branch_name}
@@ -291,14 +223,7 @@ const CutoffPredictorMain = () => {
                                                     gender={results.prediction.gender}
                                                 />
                                             </div>
-                                        </div>
-
-                                        {/* Row 2: Historical Cutoffs (60%) + Students Appeared (40%) */}
-                                        <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
-                                            <div className="lg:col-span-3">
-                                                <RoundComparison results={results} historicalData={historicalData} />
-                                            </div>
-                                            <div className="lg:col-span-2">
+                                            <div className="w-full h-full">
                                                 <CandidateCountChart />
                                             </div>
                                         </div>
@@ -329,6 +254,35 @@ const CutoffPredictorMain = () => {
         .animate-gradient {
           background-size: 200% 200%;
           animation: gradient 5s ease infinite;
+        }
+
+        /* Mouse Scroll Animation */
+        .mouse-container {
+            width: 26px;
+            height: 42px;
+        }
+        .mouse {
+            width: 26px;
+            height: 42px;
+            border: 2px solid #f97316;
+            border-radius: 14px;
+            position: relative;
+        }
+        .wheel {
+            width: 4px;
+            height: 8px;
+            background: #f97316;
+            border-radius: 2px;
+            position: absolute;
+            top: 6px;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: scroll 1.5s infinite;
+        }
+        @keyframes scroll {
+            0% { opacity: 0; transform: translate(-50%, 0); }
+            30% { opacity: 1; transform: translate(-50%, 0); }
+            100% { opacity: 0; transform: translate(-50%, 15px); }
         }
       `}</style>
             <Footer />
