@@ -311,6 +311,12 @@ function CollegePredictorPage() {
                 }
 
                 results = collegesToSearch.map(([collegeName, collegeInfo]) => {
+                    // --- GENDER FILTER LOGIC FOR CUMMINS COLLEGE ---
+                    // Institute code 6276 is Cummins College of Engineering for Women
+                    const instituteCodeStr = collegeInfo.institute_code?.toString();
+                    if (gender !== 'female' && (instituteCodeStr === "6276" || instituteCodeStr === "06276")) {
+                        return null;
+                    }
                     const eligibleBranches = collegeInfo.branches.map(currentBranch => {
                         // Collect ALL eligible seats for this branch
                         let allEligibleSeats = [];
@@ -450,6 +456,11 @@ function CollegePredictorPage() {
 
             } else {
                 results = data.filter((college) => {
+                    // --- GENDER FILTER LOGIC FOR CUMMINS COLLEGE ---
+                    const instCode = college["Institute Code"]?.toString();
+                    if (gender !== 'female' && (instCode === "6276" || instCode === "06276")) {
+                        return false;
+                    }
                     const regionMatch = region.length === 0 || region.some(r => r === getRegionFromInstituteCode(college["Institute Code"]));
                     if (!regionMatch) return false;
                     return college.Courses.some(course => {
@@ -1004,5 +1015,3 @@ function CollegePredictorPage() {
 }
 
 export default CollegePredictorPage;
-
-
