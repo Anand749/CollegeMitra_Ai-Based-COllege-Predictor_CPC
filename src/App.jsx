@@ -4,6 +4,7 @@ import CutoffPredictor from './components/CutoffPredictor/CutoffPredictorMain.js
 import Navbar from './components/Navbar.jsx';
 import './index.css';
 import useAnalytics from './hooks/useAnalytics.js';
+import { Analytics } from "@vercel/analytics/react";
 
 import CollegePredictorPage from './components/College Predictor/CollegePredictorPage.jsx';
 import CollegeComparison from './components/CollegeComparison/Collegecomparison.jsx';
@@ -33,6 +34,7 @@ function App() {
   return (
     <Router>
       <AppContent />
+      <Analytics />
     </Router>
   );
 }
