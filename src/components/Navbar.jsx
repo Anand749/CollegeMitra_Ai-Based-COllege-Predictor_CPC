@@ -11,6 +11,7 @@ const Navbar = () => {
         { path: '/mhtcet-college-predictor', label: 'College Predictor', icon: '🎓' },
         { path: '/mhtcet-college-comparison', label: 'College Comparison', icon: '📊' },
         { path: '/mhtcet-cutoff-analyzer', label: 'Cutoff Predictor', icon: '📈' },
+        { path: '/resources', label: 'Resources', icon: '📚' },
         { path: '/about', label: 'About', icon: 'ℹ️' },
         { path: '/contact', label: 'Contact', icon: '📞' },
     ];

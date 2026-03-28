@@ -10,6 +10,7 @@ import CollegePredictorPage from './components/College Predictor/CollegePredicto
 import CollegeComparison from './components/CollegeComparison/Collegecomparison.jsx';
 import AboutPage from './components/AboutPage.jsx';
 import ContactPage from './components/ContactPage.jsx';
+import ResourceHub from './components/ResourceHub.jsx';
 
 function AppContent() {
   // Track page views across all routes
@@ -25,6 +26,7 @@ function AppContent() {
         <Route path="/mhtcet-college-comparison" element={<CollegeComparison />} />
         <Route path="/about" element={<AboutPage />} />
         <Route path="/contact" element={<ContactPage />} />
+        <Route path="/resources" element={<ResourceHub />} />
       </Routes>
     </div>
   );

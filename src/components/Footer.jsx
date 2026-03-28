@@ -53,7 +53,7 @@ const Footer = () => {
                         </h4>
                         <ul className="space-y-4 text-sm">
                             <li><a href="https://www.collegepecharcha.in/colleges" target="_blank" rel="noopener noreferrer" className="hover:text-amber-400 transition-colors">Colleges</a></li>
-                            <li><a href="https://www.collegepecharcha.in/resources" target="_blank" rel="noopener noreferrer" className="hover:text-amber-400 transition-colors">Resources</a></li>
+                            <li><Link to="/resources" className="hover:text-amber-400 transition-colors">Resources</Link></li>
                             <li><a href="https://www.collegepecharcha.in/events" target="_blank" rel="noopener noreferrer" className="hover:text-amber-400 transition-colors">Events</a></li>
                             <li><a href="https://www.collegepecharcha.in/team" target="_blank" rel="noopener noreferrer" className="hover:text-amber-400 transition-colors">Team</a></li>
                         </ul>
