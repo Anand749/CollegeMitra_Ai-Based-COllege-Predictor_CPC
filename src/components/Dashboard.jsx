@@ -209,7 +209,7 @@ const Dashboard = () => {
                                 transition={{ duration: 0.8, delay: 0.6 }}
                                 className="flex flex-col sm:flex-row flex-wrap gap-4 pt-4 justify-center lg:justify-start"
                             >
-                                <Link to="/college-predictor" className="w-full sm:w-auto">
+                                <Link to="/mhtcet-college-predictor" className="w-full sm:w-auto">
                                     <motion.button
                                         whileHover={{ scale: 1.05, boxShadow: "0 20px 25px -5px rgba(246, 128, 20, 0.3)" }}
                                         whileTap={{ scale: 0.95 }}
@@ -218,7 +218,7 @@ const Dashboard = () => {
                                         Predict College →
                                     </motion.button>
                                 </Link>
-                                <Link to="/cutoff-predictor" className="w-full sm:w-auto">
+                                <Link to="/mhtcet-cutoff-analyzer" className="w-full sm:w-auto">
                                     <motion.button
                                         whileHover={{ scale: 1.05, borderColor: "#f68014", color: "#f68014" }}
                                         whileTap={{ scale: 0.95 }}
@@ -377,7 +377,7 @@ const Dashboard = () => {
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                        <Link to="/college-predictor" className="group relative">
+                        <Link to="/mhtcet-college-predictor" className="group relative">
                             <div className="absolute inset-0 bg-gradient-to-br from-orange-500/10 to-amber-500/10 rounded-3xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                             <div className="bg-[#FFFBF2] rounded-3xl p-8 shadow-xl border border-orange-100 hover:border-orange-300 transition-all duration-300 h-full flex flex-col relative overflow-hidden group-hover:-translate-y-2">
                                 <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-opacity">
@@ -396,7 +396,7 @@ const Dashboard = () => {
                             </div>
                         </Link>
 
-                        <Link to="/cutoff-predictor" className="group relative md:-mt-8 md:mb-8 z-10">
+                        <Link to="/mhtcet-cutoff-analyzer" className="group relative md:-mt-8 md:mb-8 z-10">
                             <div className="absolute inset-0 bg-gradient-to-br from-orange-500 to-amber-500 rounded-3xl blur-2xl opacity-40 group-hover:opacity-60 transition-opacity duration-500 animate-pulse"></div>
                             <div className="bg-gradient-to-br from-gray-900 to-gray-800 rounded-3xl p-8 shadow-2xl border border-orange-500/30 hover:border-orange-400 transition-all duration-300 h-full flex flex-col relative overflow-hidden transform group-hover:-translate-y-2">
                                 <div className="absolute top-4 right-4 bg-gradient-to-r from-orange-500 to-amber-500 text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg flex items-center gap-1">
@@ -418,7 +418,7 @@ const Dashboard = () => {
                             </div>
                         </Link>
 
-                        <Link to="/college-comparison" className="group relative">
+                        <Link to="/mhtcet-college-comparison" className="group relative">
                             <div className="absolute inset-0 bg-gradient-to-br from-yellow-500/20 to-amber-500/20 rounded-3xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                             <div className="bg-[#FFFBF2] rounded-3xl p-8 shadow-xl border border-yellow-100 hover:border-yellow-300 transition-all duration-300 h-full flex flex-col relative overflow-hidden group-hover:-translate-y-2">
                                 <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-opacity">
@@ -632,7 +632,7 @@ const Dashboard = () => {
                                     <p className="text-gray-600 leading-relaxed text-lg mb-6">
                                         Comprehensive AI-powered tools designed to simplify your admission process. From prediction to comparison, we have everything covered.
                                     </p>
-                                    <Link to="/college-predictor" className="inline-flex items-center gap-2 font-bold text-blue-600 hover:text-blue-700 transition-colors">
+                                    <Link to="/mhtcet-college-predictor" className="inline-flex items-center gap-2 font-bold text-blue-600 hover:text-blue-700 transition-colors">
                                         Explore Tools <ArrowRight className="w-4 h-4" />
                                     </Link>
                                 </div>

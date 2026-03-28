@@ -39,9 +39,9 @@ const Footer = () => {
                             Prediction Tools
                         </h4>
                         <ul className="space-y-4 text-sm">
-                            <li><Link to="/college-predictor" className="hover:text-orange-400 transition-colors flex items-center gap-2">College Predictor</Link></li>
-                            <li><Link to="/cutoff-predictor" className="hover:text-orange-400 transition-colors flex items-center gap-2">Cutoff Predictor <span className="text-[10px] bg-orange-500/20 text-orange-400 px-1.5 py-0.5 rounded border border-orange-500/30">NEW</span></Link></li>
-                            <li><Link to="/college-comparison" className="hover:text-orange-400 transition-colors flex items-center gap-2">College Comparison</Link></li>
+                            <li><Link to="/mhtcet-college-predictor" className="hover:text-orange-400 transition-colors flex items-center gap-2">College Predictor</Link></li>
+                            <li><Link to="/mhtcet-cutoff-analyzer" className="hover:text-orange-400 transition-colors flex items-center gap-2">Cutoff Predictor <span className="text-[10px] bg-orange-500/20 text-orange-400 px-1.5 py-0.5 rounded border border-orange-500/30">NEW</span></Link></li>
+                            <li><Link to="/mhtcet-college-comparison" className="hover:text-orange-400 transition-colors flex items-center gap-2">College Comparison</Link></li>
                         </ul>
                     </div>
 

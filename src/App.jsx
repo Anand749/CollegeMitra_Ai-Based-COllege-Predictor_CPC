@@ -20,9 +20,9 @@ function AppContent() {
       <Navbar />
       <Routes>
         <Route path="/" element={<Dashboard />} />
-        <Route path="/cutoff-predictor" element={<CutoffPredictor />} />
-        <Route path="/college-predictor" element={<CollegePredictorPage />} />
-        <Route path="/college-comparison" element={<CollegeComparison />} />
+        <Route path="/mhtcet-cutoff-analyzer" element={<CutoffPredictor />} />
+        <Route path="/mhtcet-college-predictor" element={<CollegePredictorPage />} />
+        <Route path="/mhtcet-college-comparison" element={<CollegeComparison />} />
         <Route path="/about" element={<AboutPage />} />
         <Route path="/contact" element={<ContactPage />} />
       </Routes>

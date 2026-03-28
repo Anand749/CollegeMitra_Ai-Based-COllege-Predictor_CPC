@@ -8,9 +8,9 @@ const Navbar = () => {
 
     const navItems = [
         { path: '/', label: 'Dashboard', icon: '🏠' },
-        { path: '/college-predictor', label: 'College Predictor', icon: '🎓' },
-        { path: '/college-comparison', label: 'College Comparison', icon: '📊' },
-        { path: '/cutoff-predictor', label: 'Cutoff Predictor', icon: '📈' },
+        { path: '/mhtcet-college-predictor', label: 'College Predictor', icon: '🎓' },
+        { path: '/mhtcet-college-comparison', label: 'College Comparison', icon: '📊' },
+        { path: '/mhtcet-cutoff-analyzer', label: 'Cutoff Predictor', icon: '📈' },
         { path: '/about', label: 'About', icon: 'ℹ️' },
         { path: '/contact', label: 'Contact', icon: '📞' },
     ];
